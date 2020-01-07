@@ -1,0 +1,166 @@
+        {
+            "desc": "+@Armor@ Armor",
+            "effects": {
+                "Armor": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/TFT_Item_ChainVest.TFT.dds",
+            "id": 5,
+            "name": "Chain Vest"
+        },
+        
+        
+        {
+            "desc": " +@AS@% Attack Speed",
+            "effects": {
+                "AS": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/TFT_Item_RecurveBow.TFT.dds",
+            "id": 2,
+            "name": "Recurve Bow"
+        },
+        
+        
+        {
+            "desc": " +@Mana@ Mana",
+            "effects": {
+                "Mana": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/Icon_TearOfTheGoddess.TFT.dds",
+            "id": 4,
+            "name": "Tear of the Goddess"
+        },
+        
+        
+        {
+            "desc": "+@MagicResist@ Magic Resist",
+            "effects": {
+                "MagicResist": 25.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/TFT_Item_NegatronCloak.TFT.dds",
+            "id": 6,
+            "name": "Negatron Cloak"
+        },
+        
+        
+        {
+            "desc": " +@AD@ Attack Damage",
+            "effects": {
+                "{4724fc58}": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/Icon_BFSword.TFT.dds",
+            "id": 10003,
+            "name": "B. F. Sword"
+        },    
+        
+        
+        {
+            "desc": " +@AD@ Attack Damage",
+            "effects": {
+                "{4724fc58}": 15.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/Icon_BFSword.TFT.dds",
+            "id": 1,
+            "name": "B. F. Sword"
+        },
+        
+        {
+            "desc": "+@CritChance@% Critical Strike Chance<br>+@DodgeChance@% Dodge Chance",
+            "effects": {
+                "{3abb8549}": 10.0,
+                "{c4b5579c}": 10.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/TFT_Item_SparringGloves.TFT.dds",
+            "id": 9,
+            "name": "Sparring Gloves"
+        },
+
+        
+        {
+            "desc": " +@Health@ Health",
+            "effects": {
+                "Health": 200.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/Icon_GiantsBelt.TFT.dds",
+            "id": 7,
+            "name": "Giant's Belt"
+        },
+        
+
+        
+        {
+            "desc": " +@AP@% Spell Power",
+            "effects": {
+                "AP": 20.0
+            },
+            "from": [],
+            "icon": "ASSETS/Maps/Particles/TFT/Icon_NeedlesslyLargeRod.TFT.dds",
+            "id": 3,
+            "name": "Needlessly Large Rod"
+        },
+        
+        
+        
+        
+        
+        chunk of code I'm scared to delete:
+        
+        
+					
+					
+					
+					/*champToRegister.addValueChampion((currentLine.substring(index1,index2), Character.getNumericValue(
+							currentLine.charAt(index3 + 2))); //sets gold cost					
+					
+					fileToRead.readLine(); //reads Icon line, not needed
+					//fileToRead.readLine(); //reads ID number line, not needed
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.setChampName(currentLine.substring(
+							charFinder(':',1,currentLine) + 3, (currentLine.length() - 2))); //Sets champ name
+					
+					while (champToRegister.getChampName().length() < 3) {
+						champToRegister.setChampName(champToRegister.getChampName().concat(" "));//Makes it so champ name is at lease 3 characters
+					}
+					
+					fileToRead.readLine(); //reads "stats" line, not needed
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.addArmor((int)Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets champ armor
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.addAs(Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1))));//Sets champ attack speed
+					
+					fileToRead.readLine();//reads crit chance, same for all
+					fileToRead.readLine();//reads crit damage, same for all
+					currentLine = fileToRead.readLine();
+					champToRegister.addAd((int)Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets champ Ad
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.addHP((int)Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets champ Hp
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.addMana((int)Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets champ start mana
+					
+					fileToRead.readLine();//reads magic resist, same for all
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.setTotalMana((int)Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets total mana
+					
+					currentLine = fileToRead.readLine();
+					champToRegister.setRange(Double.parseDouble(currentLine.substring(
+							charFinder(':',1,currentLine) + 2, (currentLine.length() - 1)))); //Sets champ attack range*/
+        
