@@ -169,13 +169,24 @@ public class TFT_Team {
 		/*System.out.println(numOnBoard + " on " + maxChamps + " max");
 		System.out.println("Round num " + roundNum + " team level " + teamLevel);*/
 		
+		int indexAdd = boardChamps.size();
+		
 		if (numOnBoard == maxChamps) {
 			System.out.println("Field is full, try again.\n");
 		} else {
+			
+			for (int i = 0; i < boardChamps.size(); i++) {
+				if (boardChamps.get(i) == null)
+					indexAdd = i;
+			}
+			
+			if(indexAdd == boardChamps.size()) //means the arraylist must grow is full but the
+				boardChamps.add(new GeneralChampion()); //game still has room for another champ
+			
 			try {
-				boardChamps.add((GeneralChampion)toField.clone());
-				boardChamps.get(boardChamps.size() - 1).setGE(toField.getChampGE());
-				System.out.println(boardChamps.get(numOnBoard).getName() + " put on field.");
+				boardChamps.set(indexAdd,(GeneralChampion)toField.clone());
+				boardChamps.get(indexAdd).setGE(toField.getChampGE());
+				System.out.println(boardChamps.get(indexAdd).getName() + " put on field.");
 				numOnBoard++;
 				gold -= toField.getValueChampion("cost");
 				return true;
@@ -217,6 +228,7 @@ public class TFT_Team {
 					System.out.println(deckChamps[i].getName() + " added to board.");
 				
 					deckChamps[i] = null;
+					adjustList(deckChamps);
 					numOnBoard++;
 					numOnDeck--;
 					return true;				
@@ -264,8 +276,7 @@ public class TFT_Team {
 				}
 			}
 			
-			experience += XP_PER_ROUND;
-			checkLevel();
+			addXP(XP_PER_ROUND);
 			roundNum++;					
 		}
 		
@@ -306,7 +317,7 @@ public class TFT_Team {
 		return;
 	}
 	
-	public boolean removeChampBoard (String champRemoveName) { //Not yet implemented------------
+	public boolean removeChampBoard (String champRemoveName) { //Completed----------------------
 		
 		BankChamp champRemoveBoard = checkChampReg(champRemoveName, champRegistry);
 		ArrayList<Integer> removeBoardIndexes = new ArrayList<Integer>();
@@ -342,6 +353,7 @@ public class TFT_Team {
 		}
 		
 		while (optionSelect.equalsIgnoreCase("c") != true || optionSelect.equalsIgnoreCase("cancel") != true) {
+			
 			optionInt = Integer.parseInt(optionSelect);
 			
 			try {				
@@ -353,6 +365,7 @@ public class TFT_Team {
 				}
 				
 				boardChamps.set(boardOptions.get(optionInt - 1),  null);
+				adjustList(boardChamps);
 				//boardChamps.get(boardOptions.get(optionInt - 1)).initializeEffHolder();
 				
 				numOnDeck++;
@@ -362,14 +375,16 @@ public class TFT_Team {
 			} catch (IndexOutOfBoundsException e) {	
 				System.out.println("Option " + optionSelect + " not found, try again.\n(Type \"c\" or \"cancel\" to cancel)");
 				optionSelect = keyboard.nextLine();
-			}						
+			} catch (NumberFormatException e) {
+				//Would mean a letter is typed in, likely to cancel. Just do nothing?
+			}
 		}	
 		
 		System.out.println("Cancelled.");		
 		return false;
 	}
 	
-	public boolean sellChamp (String champSellName) { //Not yet implemented-------------------------
+	public boolean sellChamp (String champSellName) { //Completed-------------------------------
 		
 		ArrayList<Integer> boardIndexes = new ArrayList<Integer>();
 		ArrayList<Integer> deckIndexes = new ArrayList<Integer>();
@@ -391,9 +406,14 @@ public class TFT_Team {
 		if (boardIndexes.size() == 1 && deckIndexes.size() == 0) { //if exactly one instance, and is on board
 			gold += boardChamps.get(boardIndexes.get(0)).getValueChampion("cost");
 				
-			boardChamps.set(boardIndexes.get(0),new GeneralChampion());
-			boardChamps.get(boardIndexes.get(0)).initializeEffHolder();
-			numOnBoard--;
+			
+			boardChamps.set(boardIndexes.get(0),null);
+			adjustList(boardChamps);			
+			numOnBoard--;		
+			
+			/*boardChamps.set(boardIndexes.get(0),new GeneralChampion());
+			boardChamps.get(boardIndexes.get(0)).initializeEffHolder();			
+			numOnBoard--;*/
 				
 			System.out.println("Sold " + champSell.getName() + ".");
 			return true;	
@@ -402,9 +422,13 @@ public class TFT_Team {
 		if (boardIndexes.size() == 0 && deckIndexes.size() == 1) { //if exactly one instance, and is on deck
 			gold += deckChamps[deckIndexes.get(0)].getValueChampion("cost");
 			
-			deckChamps[deckIndexes.get(0)] = new GeneralChampion();
+			deckChamps[deckIndexes.get(0)] = null;
+			adjustList(boardChamps);
+			numOnDeck--;			
+			
+			/*deckChamps[deckIndexes.get(0)] = new GeneralChampion();
 			deckChamps[deckIndexes.get(0)].initializeEffHolder();
-			numOnDeck--;
+			numOnDeck--;*/
 			
 			System.out.println("Sold " + champSell.getName() + ".");		
 			return true;
@@ -443,7 +467,7 @@ public class TFT_Team {
 		
 		for (int i = 0; i < deckChamps.length; i++) {
 			try {
-				System.out.println(deckChamps[i].getName());
+				//System.out.println(deckChamps[i].getName());
 				
 				if (deckChamps[i].getName().equals(champFindDeck.getName())){
 				deckIndexes.add(i);
@@ -452,6 +476,8 @@ public class TFT_Team {
 				
 			}
 		}		
+		
+		System.out.println(deckIndexes.size() + " found.");
 		
 		return deckIndexes;
 	}
@@ -481,7 +507,7 @@ public class TFT_Team {
 			if (i < indexesBoard.size()) {
 				System.out.println("Board--");
 			} else {
-				System.out.println("Field--");
+				System.out.println("Bench--");
 			}
 			System.out.println("Option " + (i+1) + ": " + champOptions.get(i).toString());
 		}
@@ -492,21 +518,22 @@ public class TFT_Team {
 			optionSelect = Integer.parseInt(userInput);
 			
 			try {
-				if (optionSelect > indexesBoard.size()) { //means it's on the deck
+				if ((optionSelect - 1) > indexesBoard.size()) { //means it's on the deck
 					optionSelect = optionSelect - indexesBoard.size();					
-					currentChamp = deckChamps[indexesDeck.get(optionSelect)];
+					currentChamp = deckChamps[indexesDeck.get(optionSelect - 1)];
 					
 					gold += currentChamp.getValueChampion("cost");
-					deckChamps[indexesDeck.get(optionSelect)] = new GeneralChampion();
-					deckChamps[indexesDeck.get(optionSelect)].initializeEffHolder();
+					deckChamps[indexesDeck.get(optionSelect - 1)] = null;
+					adjustList(deckChamps);	
 					numOnDeck--;
-				} else { //means it's on the board
-					currentChamp = boardChamps.get(indexesBoard.get(optionSelect));
 					
-					gold += currentChamp.getValueChampion("cost");
-					boardChamps.set(indexesBoard.get(optionSelect), new GeneralChampion());
-					boardChamps.get(indexesBoard.get(optionSelect)).initializeEffHolder();
-					numOnBoard--;
+				} else { //means it's on the board
+					currentChamp = boardChamps.get(indexesBoard.get(optionSelect - 1));
+					
+					gold += currentChamp.getValueChampion("cost");					
+					boardChamps.set(indexesBoard.get(optionSelect - 1), null);
+					adjustList(boardChamps);
+					numOnBoard--;					
 				}		
 				
 				System.out.println("Sold " + champToSell.getName());
@@ -638,26 +665,38 @@ public class TFT_Team {
 	
 	private GeneralChampion worstTakeFinder() {
 				
-		GeneralChampion takeOff = boardChamps.get(0);
+		int index = 0;
+		GeneralChampion takeOff = null;
+		
 		GeneralChampion current;
 		GoldEfficiency takeOffGE,currentGE;
+		
+		while(takeOff == null && index < boardChamps.size()) {
+			takeOff = boardChamps.get(index);
+			index++;
+		}
+		
+		if (takeOff == null) 
+			return takeOff;		
 
-		for (int i = 0; i < numOnBoard; i++) {
+
+		for (int i = 0; i < boardChamps.size(); i++) {
 			current = boardChamps.get(i);
 			
-			takeOffGE = takeOff.getChampGE();
-			currentGE = current.getChampGE();
+			if (current != null) {
 			
-			if (currentGE.getValueGE("overall") < takeOffGE.getValueGE("overall")) {
-				takeOff = current;
-				takeOffGE = currentGE;
+				takeOffGE = takeOff.getChampGE();
+				currentGE = current.getChampGE();
+			
+				if (currentGE.getValueGE("overall") < takeOffGE.getValueGE("overall")) {
+					takeOff = current;
+					takeOffGE = currentGE;
+				}
 			}
 		}
 		
 		return takeOff;
 	}
-	
-
 	
 	private int incomeCalc(boolean roundWin) { //Should be done----------------------------
 		totalIncome = pasIncome;
@@ -681,14 +720,17 @@ public class TFT_Team {
 		return totalIncome;
 	}
 	
-	public void addXP() {
+	public void addXP(int xpVal) {
 		
-		if (gold > 3) {
+		if (xpVal == 2) {
+			experience += 2;
+		} else if (xpVal == 4 && gold > 3) {
 			gold -= 4;
 			experience += 4;
 		} else {
 			System.out.println("Not enough gold. Sell champs and try again.");
-		}		
+		}
+		
 		checkLevel();
 		
 	}
@@ -819,6 +861,28 @@ public class TFT_Team {
 	
 	public void addGold(int goldAmt) {
 		gold += goldAmt;
+	}
+	
+	private void adjustList(ArrayList<GeneralChampion> adjust) {
+		
+		int size = adjust.size();
+		
+		for (int i = 0; i < size - 1; i++) {
+			if (adjust.get(i) == null) {
+				adjust.set(i, adjust.get(i+1));
+				adjust.set(i +1, null);
+			}
+		}		
+	}
+	
+	private void adjustList(GeneralChampion[] adjust) {
+		
+		for (int i = 0; i < adjust.length - 1; i++) {			
+			if (adjust[i] == null) {
+				adjust[i] = adjust [i+1];
+				adjust[i+1] = null;
+			}			
+		}		
 	}
 	
 	private String nameLength(String name) { //Adjusts name to be at least 3 chars--------------

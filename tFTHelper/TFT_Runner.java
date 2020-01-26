@@ -51,7 +51,8 @@ public class TFT_Runner {
 			}
 		}		
 
-		currentTeam.addGold((int)currentTeam.boardChamps.get(0).getValueChampion("cost"));
+		currentTeam.addGold(1);
+		currentTeam.addXP(2);
 		//currentTeam.addChampBoard(currentTeam.boardChamps.get(0).getChampName());
 		actionLog("Started with" + toString(userInput));
 		
@@ -134,7 +135,7 @@ public class TFT_Runner {
 				
 				case "xp":
 				case "experience":
-					currentTeam.addXP();
+					currentTeam.addXP(4);
 					break;
 				
 				case "won game":
@@ -245,7 +246,7 @@ public class TFT_Runner {
 			System.out.println("Sale cancelled.");
 		} else if(sellComplete == true) {
 			actionLog("Sold" + toString(champSell) + ".");
-			System.out.println(champSell + " sold.\n");
+			//System.out.println(champSell + " sold.\n");
 		}
 		
 		return;
